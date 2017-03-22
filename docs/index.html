@@ -210,6 +210,10 @@ class: in-person
 
 ---
 
+class: in-person
+
+## Agenda
+
 <!--
 Reminder, when updating the agenda: when people are told to show
 up at 9am, they usually trickle in until 9:30am (except for paid
@@ -217,12 +221,6 @@ training sessions). If you're not sure that people will be there
 on time, it's a good idea to have a breakfast with the attendees
 at e.g. 9am, and start at 9:30.
 -->
-
----
-
-class: in-person
-
-## Agenda
 
 <!--
 - Agenda:
@@ -613,7 +611,7 @@ You are welcome to use the method that you feel the most comfortable with.
 
 - Engine 17.03
 - Compose 1.11
-- Machine 0.9
+- Machine 0.10
 
 .exercise[
 
@@ -687,7 +685,7 @@ Let's do this.
 
 name: part-1
 
-class: title
+class: title, self-paced
 
 Part 1
 
@@ -1899,11 +1897,11 @@ As we saw earlier, you can only control the Swarm through a manager node.
 
 - Node status icons are displayed left of the node name
 
-- No icon = no Swarm mode detected
+  - No icon = no Swarm mode detected
+  - Solid blue icon = Swarm manager detected
+  - Blue outline icon = Swarm worker detected
 
-- Solid blue icon = Swarm manager detected
-
-- Blue outline icon = Swarm worker detected
+![Play-With-Docker icons](pwd-icons.png)
 
 ---
 
@@ -2011,7 +2009,7 @@ As we saw earlier, you can only control the Swarm through a manager node.
   docker service create alpine ping 8.8.8.8
   ```
 
-- Check where the container was created:
+- Check the result:
   ```bash
   docker service ps <serviceID>
   ```
@@ -2020,15 +2018,28 @@ As we saw earlier, you can only control the Swarm through a manager node.
 
 ---
 
-## Checking container logs
+## Checking service logs
 
-- Right now, there is no direct way to check the logs of our container
-  <br/>(unless it was scheduled on the current node)
+- Docker 1.13/17.03 has `docker service logs`, but it's an experimental feature
+  <br/>(available only when enabling the experimental feature flag)
 
-- Look up the `NODE` on which the container is running
-  <br/>(in the output of the `docker service ps` command)
+- We have to use `docker logs`, which only works on local containers
+
+- We will have to connect to the node running our container
+  <br/>(unless it was scheduled locally, of course)
+
+---
+
+## Looking up where our container is running
+
+- The `docker service ps` command told us where our container was scheduled
 
 .exercise[
+
+- Look up the `NODE` on which the container is running:
+  ```bash
+  docker service ps <serviceID>
+  ```
 
 - If you use Play-With-Docker, switch to that node's tab, or set `DOCKER_HOST`
 
@@ -2758,7 +2769,7 @@ Note: if the hash rate goes to zero and doesn't climb back up, try to `rm` and `
 
 - This might change in the future (after all, it was possible in 1.12 RC!)
 
-- As of Docker Engine 1.13, other parameters requiring to `rm`/`create` the service are:
+- As of Docker Engine 17.03, other parameters requiring to `rm`/`create` the service are:
 
   - service name
 
@@ -3353,13 +3364,21 @@ See [this documentation page](https://docs.docker.com/compose/extends/) for more
 
 ---
 
+class: title, in-person
+
+Operating the Swarm
+
+---
+
 name: part-2
 
-class: title
+class: title, self-paced
 
 Part 2
 
 ---
+
+class: self-paced
 
 ## Before we start ...
 
@@ -3380,6 +3399,8 @@ We pick up exactly where we left you, so we assume that you have:
 The next slide has a cheat sheet if you need to set that up in a pinch.
 
 ---
+
+class: self-paced
 
 ## Catching up
 
@@ -3436,8 +3457,8 @@ You should now be able to connect to port 8000 and see the DockerCoins web UI.
 
 - Start a "do nothing" container using our favorite Swiss-Army distro:
   ```bash
-    docker service create --network dockercoins_default --name debug --mode global \
-           alpine sleep 1000000000
+    docker service create --network dockercoins_default --name debug \
+           --mode global alpine sleep 1000000000
   ```
 
 ]
@@ -3990,7 +4011,7 @@ Note how the build and push were fast (because caching).
 
 - Look at our service status:
   ```bash
-  watch -n1 "docker service ps worker | grep -v Shutdown.*Shutdown"
+  watch -n1 "docker service ps dockercoins_worker | grep -v Shutdown.*Shutdown"
   ```
 
 ]
@@ -4088,6 +4109,8 @@ Note: if you updated the roll-out parallelism, *rollback* will not rollback to t
 
 ---
 
+class: swarmctl
+
 ## Getting task information for a given node
 
 - You can see all the tasks assigned to a node with `docker node ps`
@@ -4101,6 +4124,8 @@ Note: if you updated the roll-out parallelism, *rollback* will not rollback to t
 - `docker node ps -a` includes stopped and failed tasks
 
 ---
+
+class: swarmctl
 
 ## Getting cluster-wide task information
 
@@ -4118,6 +4143,8 @@ Note: if you updated the roll-out parallelism, *rollback* will not rollback to t
 - First, we need to install `swarmctl`
 
 ---
+
+class: swarmctl
 
 ## Building `swarmctl`
 
@@ -4142,6 +4169,8 @@ the build might fail. In that case, just skip the `swarmctl` section.
 
 ---
 
+class: swarmctl
+
 ## Using `swarmctl`
 
 - The Docker Engine places the SwarmKit control socket in a special path
@@ -4161,6 +4190,8 @@ the build might fail. In that case, just skip the `swarmctl` section.
 (Note: with Docker 1.12, that control socket was in `/var/lib/docker/swarm/control.sock`)
 
 ---
+
+class: swarmctl
 
 ## `swarmctl` in action
 
@@ -4182,6 +4213,8 @@ the build might fail. In that case, just skip the `swarmctl` section.
 
 ---
 
+class: swarmctl
+
 ## Caveat
 
 - SwarmKit is vendored into the Docker Engine
@@ -4196,6 +4229,8 @@ Error: grpc: failed to unmarshal the received message proto: wrong wireType = 0
 ```
 
 ---
+
+class: secrets
 
 # Secrets management and encryption at rest
 
@@ -4216,6 +4251,8 @@ Error: grpc: failed to unmarshal the received message proto: wrong wireType = 0
 
 ---
 
+class: secrets
+
 ## Secret management
 
 - Docker has a "secret safe" (secure key→value store)
@@ -4231,6 +4268,8 @@ Error: grpc: failed to unmarshal the received message proto: wrong wireType = 0
 - Secrets have a max size of 500 KB
 
 ---
+
+class: secrets
 
 ## Creating secrets
 
@@ -4251,6 +4290,8 @@ If the secret is in a file, you can simply pass the path to the file.
 
 ---
 
+class: secrets
+
 ## Creating better secrets
 
 - Picking lousy passwords always leads to security breaches
@@ -4267,6 +4308,8 @@ If the secret is in a file, you can simply pass the path to the file.
 Note: in the latter case, we don't even know the secret at this point. But Swarm does.
 
 ---
+
+class: secrets
 
 ## Using secrets
 
@@ -4287,6 +4330,8 @@ Note: in the latter case, we don't even know the secret at this point. But Swarm
 We use a global service to make sure that there will be an instance on the local node.
 
 ---
+
+class: secrets
 
 ## Accessing secrets
 
@@ -4310,6 +4355,8 @@ We use a global service to make sure that there will be an instance on the local
 
 ---
 
+class: secrets
+
 ## Rotating secrets
 
 - You can't change a secret
@@ -4328,6 +4375,8 @@ We use a global service to make sure that there will be an instance on the local
   ```
 
 ---
+
+class: secrets
 
 ## Changing our insecure password
 
@@ -4352,6 +4401,8 @@ Wait for the service to be fully updated with e.g. `watch docker service ps dumm
 
 ---
 
+class: secrets
+
 ## Checking that our password is now stronger
 
 - We will use the power of `docker exec`!
@@ -4371,6 +4422,8 @@ Wait for the service to be fully updated with e.g. `watch docker service ps dumm
 ]
 
 ---
+
+class: secrets
 
 ## Secrets in practice
 
@@ -4439,6 +4492,8 @@ A few solutions, by increasing order of flexibility:
 
 ---
 
+class: encryption-at-rest
+
 ## Encryption at rest
 
 - Swarm data is always encrypted
@@ -4459,6 +4514,8 @@ A few solutions, by increasing order of flexibility:
 
 ---
 
+class: encryption-at-rest
+
 ## Locking a Swarm cluster
 
 - This is achieved through the `docker swarm update` command
@@ -4475,6 +4532,8 @@ A few solutions, by increasing order of flexibility:
 This will display the unlock key. Copy-paste it somewhere safe.
 
 ---
+
+class: encryption-at-rest
 
 ## Locked state
 
@@ -4493,6 +4552,8 @@ Note: if you are doing the workshop on your own, using nodes
 that you [provisioned yourself](https://github.com/jpetazzo/orchestration-workshop/tree/master/prepare-machine) or with [Play-With-Docker](http://play-with-docker.com/), you might have to use a different method to restart the Engine.
 
 ---
+
+class: encryption-at-rest
 
 ## Checking that our node is locked
 
@@ -4515,6 +4576,8 @@ that you [provisioned yourself](https://github.com/jpetazzo/orchestration-worksh
 
 ---
 
+class: encryption-at-rest
+
 ## Checking the state of the node programmatically
 
 - The state of the node shows up in the output of `docker info`
@@ -4534,6 +4597,8 @@ that you [provisioned yourself](https://github.com/jpetazzo/orchestration-worksh
 ]
 
 ---
+
+class: encryption-at-rest
 
 ## Unlocking a node
 
@@ -4557,6 +4622,8 @@ that you [provisioned yourself](https://github.com/jpetazzo/orchestration-worksh
 
 ---
 
+class: encryption-at-rest
+
 ## Managing the secret key
 
 - If the key is compromised, you can change it and re-encrypt with a new key:
@@ -4575,6 +4642,8 @@ Note: if somebody steals both your disks and your key, .strike[you're doomed! Do
 <br/>you can block the compromised node with `docker node demote` and `docker node rm`.
 
 ---
+
+class: encryption-at-rest
 
 ## Unlocking the cluster permanently
 
@@ -6833,7 +6902,7 @@ class: title
       var slideshow = remark.create({
         ratio: '16:9',
         highlightSpans: true,
-        excludedClasses: ["self-paced"]
+        excludedClasses: ["self-paced", "extra-details", "swarmctl", "encryption-at-rest"]
       });
     </script>
   </body>
