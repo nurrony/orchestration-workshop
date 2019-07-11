@@ -2,3 +2,6 @@
 #/ /kube-halfday.yml.html 200
 #/ /kube-fullday.yml.html 200
 #/ /kube-twodays.yml.html 200
+
+# And this allows to do "git clone https://container.training".
+/info/refs https://github.com/jpetazzo/container.training/info/refs
