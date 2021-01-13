@@ -296,7 +296,7 @@ class: extra-details
 
 - When using `kubectl create deployment`, we cannot indicate the command to execute
 
-  (at least, not in Kubernetes 1.18)
+  (at least, not in Kubernetes 1.18; but that changed in Kubernetes 1.19)
 
 - We can:
 
@@ -338,9 +338,22 @@ class: extra-details
   kubectl get all
   ```
 
-<!-- ```hide kubectl wait pod --selector=run=pingpong --for condition=ready ``` -->
+<!-- ```hide kubectl wait pod --selector=app=pingpong --for condition=ready ``` -->
 
 ]
+
+---
+
+class: extra-details
+
+## In Kubernetes 1.19
+
+- Since Kubernetes 1.19, we can specify the command to run
+
+- The command must be passed after two dashes:
+  ```bash
+  kubectl create deployment pingpong --image=alpine -- ping 127.1
+  ```
 
 ---
 
@@ -494,9 +507,7 @@ We'll see later how to address that shortcoming.
 ```key ^J```
 ```check```
 ```key ^D```
-```tmux select-pane -t 1```
 ```key ^C```
-```key ^D```
 -->
 
 ]

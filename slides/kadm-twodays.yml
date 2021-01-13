@@ -28,10 +28,12 @@ content:
 # DAY 1
 - - k8s/prereqs-admin.md
   - k8s/architecture.md
+  - k8s/internal-apis.md
   - k8s/deploymentslideshow.md
   - k8s/dmuc.md
 - - k8s/multinode.md
   - k8s/cni.md
+  - k8s/cni-internals.md
   - k8s/interco.md
 - - k8s/apilb.md
   - k8s/setup-overview.md
@@ -49,6 +51,7 @@ content:
   - k8s/logs-cli.md
   - k8s/logs-centralized.md
   - k8s/authn-authz.md
+  - k8s/user-cert.md
   - k8s/csr-api.md
 - - k8s/openid-connect.md
   - k8s/control-plane-auth.md
@@ -61,7 +64,9 @@ content:
   - k8s/horizontal-pod-autoscaler.md
 - - k8s/prometheus.md
   - k8s/extending-api.md
+  - k8s/crd.md
   - k8s/operators.md
+  - k8s/eck.md
   ###- k8s/operators-design.md
 # CONCLUSION
 - - k8s/lastwords.md
@@ -72,6 +77,7 @@ content:
 # EXTRA
 - - k8s/volumes.md
   - k8s/configuration.md
+  - k8s/secrets.md
   - k8s/statefulsets.md
   - k8s/local-persistent-volumes.md
   - k8s/portworx.md

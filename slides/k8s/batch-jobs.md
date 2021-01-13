@@ -10,7 +10,7 @@
 
 - Jobs are great for "long" background work
 
-  ("long" being at least minutes our hours)
+  ("long" being at least minutes or hours)
 
 - CronJobs are great to schedule Jobs at regular intervals
 
@@ -148,6 +148,28 @@ class: extra-details
 
 class: extra-details
 
+## Setting a time limit
+
+- It is possible to set a time limit (or deadline) for a job
+
+- This is done with the field `spec.activeDeadlineSeconds`
+
+  (by default, it is unlimited)
+
+- When the job is older than this time limit, all its pods are terminated
+
+- Note that there can also be a `spec.activeDeadlineSeconds` field in pods!
+
+- They can be set independently, and have different effects:
+
+  - the deadline of the job will stop the entire job
+
+  - the deadline of the pod will only stop an individual pod
+
+---
+
+class: extra-details
+
 ## What about `kubectl run` before v1.18?
 
 - Creating a Deployment:
@@ -176,11 +198,7 @@ class: extra-details
 
   - can't express parallelism or completions of Jobs
 
-  - can't express Pods with multiple containers
-
   - can't express healthchecks, resource limits
-
-  - etc.
 
 - `kubectl create` and `kubectl run` are *helpers* that generate YAML manifests
 

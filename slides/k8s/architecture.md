@@ -273,6 +273,26 @@ class: extra-details
 
 ---
 
+class: extra-details
+
+## Group-Version-Kind, or GVK
+
+- A particular type will be identified by the combination of:
+
+  - the API group it belongs to (core, `apps`, `metrics.k8s.io`, ...)
+
+  - the version of this API group (`v1`, `v1beta1`, ...)
+
+  - the "Kind" itself (Pod, Role, Job, ...)
+
+- "GVK" appears a lot in the API machinery code
+
+- Conversions are possible between different versions and even between API groups
+
+  (e.g. when Deployments moved from `extensions` to `apps`)
+
+---
+
 ## Update
 
 - Let's update our namespace object
@@ -331,6 +351,34 @@ We demonstrated *update* and *watch* semantics.
   - when a Pod belonging to a ReplicaSet terminates, it gets replaced
 
   - when a Deployment object is updated, it can trigger a rolling update
+
+---
+
+class: extra-details
+
+## Watch events
+
+- `kubectl get --watch` shows changes
+
+- If we add `--output-watch-events`, we can also see:
+
+  - the difference between ADDED and MODIFIED resources
+
+  - DELETED resources
+
+.exercise[
+
+- In one terminal, watch pods, displaying full events:
+  ```bash
+  kubectl get pods --watch --output-watch-events
+  ```
+
+- In another, run a short-lived pod:
+  ```bash
+  kubectl run pause --image=alpine --rm -ti --restart=Never -- sleep 5
+  ```
+
+]
 
 ---
 

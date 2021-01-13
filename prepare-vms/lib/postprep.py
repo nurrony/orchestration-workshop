@@ -37,7 +37,7 @@ def system(cmd):
         td = str(t2-t1)[:5]
         f.write(bold("[{}] in {}s\n".format(retcode, td)))
         STEP += 1
-    with open("/home/ubuntu/.bash_history", "a") as f:
+    with open(os.environ["HOME"] + "/.bash_history", "a") as f:
         f.write("{}\n".format(cmd))
     if retcode != 0:
         msg = "The following command failed with exit code {}:\n".format(retcode)
@@ -114,7 +114,7 @@ system("sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /e
 
 system("sudo service ssh restart")
 system("sudo apt-get -q update")
-system("sudo apt-get -qy install git jq")
+system("sudo apt-get -qy install git jid jq")
 system("sudo apt-get -qy install emacs-nox joe")
 
 #######################

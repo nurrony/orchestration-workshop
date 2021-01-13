@@ -210,6 +210,8 @@
 
   (through files that get created in the container filesystem)
 
+- That second link also includes a list of all the fields that can be used with the downward API
+
 ---
 
 ## Environment variables, pros and cons
@@ -512,48 +514,12 @@ spec:
 
 ]
 
----
-
-## Passwords, tokens, sensitive information
-
-- For sensitive information, there is another special resource: *Secrets*
-
-- Secrets and Configmaps work almost the same way
-
-  (we'll expose the differences on the next slide)
-
-- The *intent* is different, though:
-
-  *"You should use secrets for things which are actually secret like API keys, 
-  credentials, etc., and use config map for not-secret configuration data."*
-
-  *"In the future there will likely be some differentiators for secrets like rotation or support for backing the secret API w/ HSMs, etc."*
-
-  (Source: [the author of both features](https://stackoverflow.com/a/36925553/580281
-))
-
----
-
-## Differences between configmaps and secrets
- 
-- Secrets are base64-encoded when shown with `kubectl get secrets -o yaml`
-
-  - keep in mind that this is just *encoding*, not *encryption*
-
-  - it is very easy to [automatically extract and decode secrets](https://medium.com/@mveritym/decoding-kubernetes-secrets-60deed7a96a3)
-
-- [Secrets can be encrypted at rest](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/)
-
-- With RBAC, we can authorize a user to access configmaps, but not secrets
-
-  (since they are two different kinds of resources)
-
 ???
 
 :EN:- Managing application configuration
 :EN:- Exposing configuration with the downward API
-:EN:- Exposing configuration with Config Maps and Secrets
+:EN:- Exposing configuration with Config Maps
 
 :FR:- Gérer la configuration des applications
 :FR:- Configuration au travers de la *downward API*
-:FR:- Configuration via les *Config Maps* et *Secrets*
+:FR:- Configurer les applications avec des *Config Maps*

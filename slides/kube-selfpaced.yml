@@ -77,6 +77,8 @@ content:
   - k8s/kubectlproxy.md
 -
   - k8s/ingress.md
+  - k8s/ingress-tls.md
+  - k8s/cert-manager.md
   - k8s/kustomize.md
   - k8s/helm-intro.md
   - k8s/helm-chart-format.md
@@ -88,6 +90,7 @@ content:
   - k8s/netpol.md
   - k8s/authn-authz.md
   - k8s/podsecuritypolicy.md
+  - k8s/user-cert.md
   - k8s/csr-api.md
   - k8s/openid-connect.md
   - k8s/control-plane-auth.md
@@ -98,6 +101,7 @@ content:
   - k8s/build-with-kaniko.md
 -
   - k8s/configuration.md
+  - k8s/secrets.md
   - k8s/statefulsets.md
   - k8s/local-persistent-volumes.md
   - k8s/portworx.md
@@ -108,15 +112,27 @@ content:
   - k8s/metrics-server.md
   - k8s/cluster-sizing.md
   - k8s/horizontal-pod-autoscaler.md
+  - k8s/hpa-v2.md
 -
   - k8s/extending-api.md
+  - k8s/apiserver-deepdive.md
+  - k8s/crd.md
+  - k8s/aggregation-layer.md
+  - k8s/admission.md
   - k8s/operators.md
   - k8s/operators-design.md
+  - k8s/kubebuilder.md
+  - k8s/sealed-secrets.md
+  - k8s/kyverno.md
+  - k8s/eck.md
+  - k8s/finalizers.md
   - k8s/owners-and-dependents.md
+  - k8s/events.md
 -
   - k8s/dmuc.md
   - k8s/multinode.md
   - k8s/cni.md
+  - k8s/cni-internals.md
   - k8s/apilb.md
   - k8s/staticpods.md
 -
